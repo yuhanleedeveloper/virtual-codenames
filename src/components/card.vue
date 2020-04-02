@@ -6,7 +6,6 @@
           <p>New Game</p>
         </button>
       </div>
-
       <h1>CODENAMES</h1>
       <div>
         <select class="dropdown" v-model="selectedGameVer" @change="getRandomCards()">
@@ -14,7 +13,6 @@
           <option class="dropdown-option">Undercover</option>
           <option class="dropdown-option">Duet</option>
         </select>
-
         <div class="switch-container">
           <label class="switch">
             <input type="checkbox" @change="toggleSpyMasterView()" v-model="selected" />
@@ -75,9 +73,11 @@ export default {
       const colors = this.getCardConfiguration();
       let colorsCount = 4;
       while (counter <= 25) {
-        let ranNum = Math.floor(Math.random() * gameVer.length);
-        let ranColor = Math.floor(Math.random() * colorsCount);
-
+        let ranNum = this.getRandomNumber(gameVer.length);
+        let ranColor = this.getRandomNumber(colorsCount);
+        while (cardSet.find(card => card.text === gameVer[ranNum])) {
+          ranNum = this.getRandomNumber(gameVer.length);
+        }
         cardSet.push({
           text: gameVer[ranNum],
           color: colors[ranColor].className,
@@ -101,7 +101,7 @@ export default {
       }));
     },
     getCardConfiguration() {
-      let redNum = Math.floor(Math.random() * 2) === 1 ? 9 : 8;
+      let redNum = this.getRandomNumber(2) === 1 ? 9 : 8;
       return [
         { className: "card-red", cardNum: redNum },
         { className: "card-blue", cardNum: 17 - redNum },
@@ -118,6 +118,9 @@ export default {
         case "Duet":
           return this.gameVersion.duetVer;
       }
+    },
+    getRandomNumber(lastIndex) {
+      return Math.floor(Math.random() * lastIndex);
     }
   }
 };
@@ -125,6 +128,10 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+.container {
+  width: 1200px;
+  margin: 0 auto;
+}
 .card-title {
   display: flex;
   justify-content: space-evenly;
@@ -132,6 +139,7 @@ export default {
 }
 h1 {
   display: inline-block;
+  font-size: 40px;
 }
 h2 {
   font-size: 25px;
@@ -143,7 +151,6 @@ p {
 }
 
 .flex {
-  width: 1200px;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
