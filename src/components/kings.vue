@@ -1,15 +1,15 @@
 <template>
   <div class="container">
-    <div v-if="cardData!==null" class="card-container">
+    <div v-if="cardData !== null" class="card-container">
       <div class="centered-card" :style="findCenterXY">
-        <h1>{{cardData.value}}</h1>
+        <h1>{{ cardData.value }}</h1>
         <img class="suites" v-bind:src="require(`../assets/suit/${cardData.suit}.png`)" alt />
       </div>
     </div>
-    <div v-for="(card,index) in cards" :key="index" v-on:click="onClick(card)">
+    <div v-for="(card, index) in cards" :key="index" v-on:click="onClick(card)">
       <div v-if="!card.isFlipped" class="card" :style="card.style">
         <div v-if="card.isFlipped">
-          <h3>{{card.value}}</h3>
+          <h3>{{ card.value }}</h3>
           <img class="suites" v-bind:src="require(`../assets/suit/${card.suit}.png`)" alt />
         </div>
       </div>
